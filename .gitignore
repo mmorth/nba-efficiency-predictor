@@ -135,4 +135,12 @@ GitHub.sublime-settings
 
 
 # End of https://www.gitignore.io/api/python,sublimetext
+# Created by https://www.gitignore.io/api/libreoffice
+
+### LibreOffice ###
+# LibreOffice locks
+.~lock.*#
+
+
+# End of https://www.gitignore.io/api/libreoffice
 
