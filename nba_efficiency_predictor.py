@@ -63,7 +63,7 @@ X_train, X_validation, Y_train, Y_validation = model_selection.train_test_split(
 seed = 7
 scoring = 'accuracy'
 
-# # Spot Check Algorithms
+# Check the results of each algorithm
 models = []
 models.append(('LR', LogisticRegression()))
 models.append(('LDA', LinearDiscriminantAnalysis()))
@@ -72,7 +72,7 @@ models.append(('CART', DecisionTreeClassifier()))
 models.append(('NB', GaussianNB()))
 models.append(('SVM', SVC()))
 
-# evaluate each model in turn
+# Evaluate each model
 results = []
 names = []
 for name, model in models:
@@ -82,3 +82,19 @@ for name, model in models:
 	names.append(name)
 	msg = "%s: %f (%f)" % (name, cv_results.mean(), cv_results.std())
 	print(msg)
+
+# Plot algorithms to test performance
+# fig = plt.figure()
+# fig.suptitle('Algorithm Comparison')
+# ax = fig.add_subplot(111)
+# plt.boxplot(results)
+# ax.set_xticklabels(names)
+# plt.show()
+
+# Make predictions on validation dataset
+knn = KNeighborsClassifier()
+knn.fit(X_train, Y_train)
+predictions = knn.predict(X_validation)
+print(accuracy_score(Y_validation, predictions))
+print(confusion_matrix(Y_validation, predictions))
+print(classification_report(Y_validation, predictions))
