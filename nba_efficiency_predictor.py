@@ -19,7 +19,7 @@ warnings.filterwarnings("ignore")
 
 # Load NBA player stat dataset
 path = "./NBAStats2017Full.csv"
-names = ['Pos','Age','G','GS','MP','FG','FGA','3P','3PA','2P','2PA','FT','FTA','ORB','DRB','TRB','AST','STL','BLK','TOV','PF','PTS','EFF']
+names = ['Age','G','GS','MP','FG','FGA','3P','3PA','2P','2PA','FT','FTA','ORB','DRB','TRB','AST','STL','BLK','TOV','PF','PTS','EFF']
 dataset = pandas.read_csv(path, names=names)
 
 # Load dataset
@@ -37,7 +37,7 @@ print(dataset.head(20))
 print(dataset.describe())
 
 # Distribution of efficient and not efficient players
-# print(dataset.groupby('EFF').size())
+print(dataset.groupby('EFF').size())
 
 # Create a box and whisker plots
 # dataset.plot(kind='box', subplots=True, layout=(2,2), sharex=False, sharey=False)
@@ -52,9 +52,6 @@ array = dataset.values
 X = array[:,0:21]
 Y = array[:,21]
 Y=Y.astype('string')
-print(array)
-print(X)
-print(Y)
 validation_size = 0.20
 seed = 7
 X_train, X_validation, Y_train, Y_validation = model_selection.train_test_split(X, Y, test_size=validation_size, random_state=seed)
@@ -92,9 +89,15 @@ for name, model in models:
 # plt.show()
 
 # Make predictions on validation dataset
-knn = LogisticRegression()
-knn.fit(X_train, Y_train)
-predictions = knn.predict(X_validation)
+lr = LogisticRegression()
+lr.fit(X_train, Y_train)
+predictions = lr.predict(X_validation)
 print(accuracy_score(Y_validation, predictions))
 print(confusion_matrix(Y_validation, predictions))
 print(classification_report(Y_validation, predictions))
+
+# Predict an input player
+print("Predict a single player: ")
+playerStats = [[22,80,80,2845,8.3,15.9,0.6,2.3,7.7,13.7,6,7.7,1.8,7.1,8.9,5.5,1.7,1.9,3,3.1,23.2]]
+predict = lr.predict(playerStats)
+print(predict)
