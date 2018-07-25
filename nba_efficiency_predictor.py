@@ -18,8 +18,8 @@ import warnings
 warnings.filterwarnings("ignore")
 
 # Load NBA player stat dataset
-path = "./NBAStats2017A.csv"
-names = ['Age', 'TRB', 'AST', 'PTS', 'EFF']
+path = "./NBAStats2017Full.csv"
+names = ['Pos','Age','G','GS','MP','FG','FGA','3P','3PA','2P','2PA','FT','FTA','ORB','DRB','TRB','AST','STL','BLK','TOV','PF','PTS','EFF']
 dataset = pandas.read_csv(path, names=names)
 
 # Load dataset
@@ -37,7 +37,7 @@ print(dataset.head(20))
 print(dataset.describe())
 
 # Distribution of efficient and not efficient players
-print(dataset.groupby('EFF').size())
+# print(dataset.groupby('EFF').size())
 
 # Create a box and whisker plots
 # dataset.plot(kind='box', subplots=True, layout=(2,2), sharex=False, sharey=False)
@@ -49,8 +49,8 @@ print(dataset.groupby('EFF').size())
 
 # Split-out validation dataset
 array = dataset.values
-X = array[:,0:4]
-Y = array[:,4]
+X = array[:,0:21]
+Y = array[:,21]
 Y=Y.astype('string')
 print(array)
 print(X)
@@ -92,7 +92,7 @@ for name, model in models:
 # plt.show()
 
 # Make predictions on validation dataset
-knn = KNeighborsClassifier()
+knn = LogisticRegression()
 knn.fit(X_train, Y_train)
 predictions = knn.predict(X_validation)
 print(accuracy_score(Y_validation, predictions))
